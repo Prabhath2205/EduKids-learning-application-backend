@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const animalSchema = new mongoose.Schema({
   label: { type: String, required: true },  // Name of the animal
@@ -6,4 +6,5 @@ const animalSchema = new mongoose.Schema({
   audio: { type: String, required: true },  // Pronunciation audio URL
 }, { timestamps: true });
 
-module.exports = mongoose.model("Animal", animalSchema);
+export default mongoose.model("Animal", animalSchema);
+

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const wordSchema = new mongoose.Schema({
   label: { type: String, required: true },    // the actual word
@@ -6,4 +6,5 @@ const wordSchema = new mongoose.Schema({
   audio: { type: String, required: true },    // URL or path to pronunciation audio
 }, { timestamps: true }); // optional: keeps track of createdAt/updatedAt
 
-module.exports = mongoose.model("Word", wordSchema);
+export default mongoose.model("Word", wordSchema);
+

@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { addWord, deleteWord, getWords, updateWord,addAnimal, getAnimals, deleteAnimal, updateAnimal } = require("../controllers/adminController");
+
+import {addWord, deleteWord, getWords, updateWord,addAnimal, getAnimals, deleteAnimal, updateAnimal} from "../controllers/adminController.js";
 
 // Word management (CRUD) - no login/auth for now
 router.post("/words", addWord);
@@ -13,4 +14,4 @@ router.get("/animals", getAnimals);
 router.put("/animals/:id", updateAnimal);
 router.delete("/animals/:id", deleteAnimal);
 
-module.exports = router;
+export default router;

@@ -1,8 +1,7 @@
-const Word = require("../models/Word");
-const Animal = require("../models/Animal");
-
+import Word from "../models/Word.js";
+import Animal from "../models/Animal.js"; 
 // Add a new word
-const addWord = async (req, res) => {
+export const addWord = async (req, res) => {
   try {
     const word = new Word(req.body);
     const saved=await word.save();
@@ -14,7 +13,7 @@ const addWord = async (req, res) => {
 };
 
 // Get all words
-const getWords = async (req, res) => {
+export const getWords = async (req, res) => {
   try {
     const words = await Word.find();
     res.json(words);
@@ -24,7 +23,7 @@ const getWords = async (req, res) => {
 };
 
 // Update a word
-const updateWord = async (req, res) => {
+export const updateWord = async (req, res) => {
   try {
     const updatedWord = await Word.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedWord) return res.status(404).json({ message: "Word not found" });
@@ -35,7 +34,7 @@ const updateWord = async (req, res) => {
 };
 
 // Delete a word
-const deleteWord = async (req, res) => {
+export const deleteWord = async (req, res) => {
   try {
     const deletedWord = await Word.findByIdAndDelete(req.params.id);
     if (!deletedWord) return res.status(404).json({ message: "Word not found" });
@@ -47,7 +46,7 @@ const deleteWord = async (req, res) => {
 
 
 // Add animal
-const addAnimal = async (req, res) => {
+export const addAnimal = async (req, res) => {
   try {
     const animal = new Animal(req.body);
     const saved = await animal.save();
@@ -58,7 +57,7 @@ const addAnimal = async (req, res) => {
 };
 
 // Get all animals
-const getAnimals = async (req, res) => {
+export const getAnimals = async (req, res) => {
   try {
     const animals = await Animal.find({});
     res.json(animals);
@@ -68,7 +67,7 @@ const getAnimals = async (req, res) => {
 };
 
 // Delete animal
-const deleteAnimal = async (req, res) => {
+export const deleteAnimal = async (req, res) => {
   try {
     await Animal.findByIdAndDelete(req.params.id);
     res.json({ message: "Animal deleted" });
@@ -78,7 +77,7 @@ const deleteAnimal = async (req, res) => {
 };
 
 // Update animal
-const updateAnimal = async (req, res) => {
+export const updateAnimal = async (req, res) => {
   try {
     const updated = await Animal.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json({ message: "Animal updated", animal: updated });
@@ -87,5 +86,5 @@ const updateAnimal = async (req, res) => {
   }
 };
 
-module.exports = { addWord, deleteWord, updateWord, getWords, addAnimal, getAnimals, deleteAnimal, updateAnimal };
+//export default { addWord, deleteWord, updateWord, getWords, addAnimal, getAnimals, deleteAnimal, updateAnimal };
 

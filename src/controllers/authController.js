@@ -11,9 +11,8 @@ export const registerUser = async (req, res) => {
     const userExists = await User.findOne({ email });
     if (userExists) return res.status(400).json({ message: "User already exists" });
 
-    // hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    // DO NOT hash password here!
+    // Just pass the plain password, the model will hash it
 
     // create user
     const user = await User.create({
@@ -22,7 +21,7 @@ export const registerUser = async (req, res) => {
       role,
       email,
       phonenumber,
-      password: hashedPassword
+      password // plain password
     });
 
     // create JWT

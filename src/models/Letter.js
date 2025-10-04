@@ -6,4 +6,4 @@ const letterSchema = new mongoose.Schema({
   type: { type: String, required: true }, // e.g. SWA01, VYA01
 });
 
-module.exports = mongoose.model("Letter", letterSchema);
+export default mongoose.model("Letter", letterSchema);

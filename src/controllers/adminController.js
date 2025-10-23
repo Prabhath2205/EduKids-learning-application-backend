@@ -1,10 +1,10 @@
 import Word from "../models/Word.js";
-import Animal from "../models/Animal.js"; 
+import Animal from "../models/Animal.js";
 // Add a new word
 export const addWord = async (req, res) => {
   try {
     const word = new Word(req.body);
-    const saved=await word.save();
+    const saved = await word.save();
     console.log("Saved Word:", saved);
     res.json({ message: "Word added", word });
   } catch (err) {
@@ -25,8 +25,11 @@ export const getWords = async (req, res) => {
 // Update a word
 export const updateWord = async (req, res) => {
   try {
-    const updatedWord = await Word.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedWord) return res.status(404).json({ message: "Word not found" });
+    const updatedWord = await Word.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!updatedWord)
+      return res.status(404).json({ message: "Word not found" });
     res.json({ message: "Word updated", word: updatedWord });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -37,13 +40,13 @@ export const updateWord = async (req, res) => {
 export const deleteWord = async (req, res) => {
   try {
     const deletedWord = await Word.findByIdAndDelete(req.params.id);
-    if (!deletedWord) return res.status(404).json({ message: "Word not found" });
+    if (!deletedWord)
+      return res.status(404).json({ message: "Word not found" });
     res.json({ message: "Word deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 // Add animal
 export const addAnimal = async (req, res) => {
@@ -79,7 +82,9 @@ export const deleteAnimal = async (req, res) => {
 // Update animal
 export const updateAnimal = async (req, res) => {
   try {
-    const updated = await Animal.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updated = await Animal.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     res.json({ message: "Animal updated", animal: updated });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -87,4 +92,3 @@ export const updateAnimal = async (req, res) => {
 };
 
 //export default { addWord, deleteWord, updateWord, getWords, addAnimal, getAnimals, deleteAnimal, updateAnimal };
-

@@ -1,4 +1,5 @@
 import User from "../models/users.js";
+import Admin from "../models/Admin.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -9,10 +10,8 @@ export const registerUser = async (req, res) => {
   try {
     // check if user exists
     const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ message: "User already exists" });
-
-    // DO NOT hash password here!
-    // Just pass the plain password, the model will hash it
+    if (userExists)
+      return res.status(400).json({ message: "User already exists" });
 
     // create user
     const user = await User.create({
@@ -21,19 +20,20 @@ export const registerUser = async (req, res) => {
       role,
       email,
       phonenumber,
-      password // plain password
+      password, // plain password
     });
 
     // create JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
-
-    res.status(201).json({ 
-      _id: user._id, 
-      email: user.email, 
-      role: user.role, 
-      token 
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
     });
 
+    res.status(201).json({
+      _id: user._id,
+      email: user.email,
+      role: user.role,
+      token,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -50,19 +50,43 @@ export const loginUser = async (req, res) => {
 
     // check password
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    if (!isMatch)
+      return res.status(400).json({ message: "Invalid credentials" });
 
     // create JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
-
-    res.json({ 
-      _id: user._id, 
-      email: user.email, 
-      role: user.role, 
-      token 
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
     });
 
+    res.json({
+      _id: user._id,
+      email: user.email,
+      role: user.role,
+      token,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+export const loginAdmin = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const admin = await Admin.findOne({ username });
+    if (!admin) return res.status(400).json({ message: "Admin not found" });
+
+    // Plaintext comparison
+    if (password !== admin.password)
+      return res.status(400).json({ message: "Invalid credentials" });
+
+    // JWT creation
+    const token = jwt.sign(
+      { id: admin._id, role: "admin" },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    res.json({ token, admin: { id: admin._id, username: admin.username } });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const feedbackSchema = new mongoose.Schema({
   user_id: {
@@ -15,7 +15,7 @@ const feedbackSchema = new mongoose.Schema({
     type: Number,
     min: 1,
     max: 5,
-    required: true
+    required: false
   },
   createdAt: {
     type: Date,
@@ -23,6 +23,5 @@ const feedbackSchema = new mongoose.Schema({
   }
 });
 
-const Feedback = mongoose.model('Feedback', feedbackSchema);
+export default mongoose.model('Feedback', feedbackSchema); 
 
-module.exports = Feedback;

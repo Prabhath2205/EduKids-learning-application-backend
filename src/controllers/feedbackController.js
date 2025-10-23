@@ -1,8 +1,8 @@
-const Feedback = require('../models/Feedback');
-const User = require('../models/User'); // Still needed for populate
+import Feedback from '../models/Feedback.js'; // Use import and .js extension
+import User from '../models/users.js';       // Use import and .js extension
 
-// 1. Logic for POST /api/feedback
-exports.submitFeedback = async (req, res) => {
+// Logic for POST /api/feedback
+const submitFeedback = async (req, res) => { // Removed 'exports.'
   try {
     const { user_id, message, rating } = req.body;
     const newFeedback = new Feedback({ user_id, message, rating });
@@ -13,12 +13,18 @@ exports.submitFeedback = async (req, res) => {
   }
 };
 
-// 2. Logic for GET /api/feedback
-exports.getAllFeedback = async (req, res) => {
+// Logic for GET /api/feedback
+const getAllFeedback = async (req, res) => { // Removed 'exports.'
   try {
-    const feedback = await Feedback.find().populate('user_id', 'username');
+    const feedback = await Feedback.find().populate('user_id', 'childname');
     res.status(200).json(feedback);
   } catch (err) {
     res.status(500).json({ error: 'Server error', details: err.message });
   }
+};
+
+// Export both functions as a single object so feedbackRoutes.js can use them
+export default {
+    submitFeedback,
+    getAllFeedback
 };

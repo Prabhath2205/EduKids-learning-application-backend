@@ -15,7 +15,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "edu-kids-learning-application-front.vercel.app",
+      "https://edu-kids-learning-application-front.vercel.app",
       "http://localhost:5000",
       "http://localhost:5173",
     ],

@@ -2,15 +2,19 @@ import mongoose from "mongoose";
 
 const feedbackSchema = new mongoose.Schema(
   {
-    user_id: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    message: { type: String, required: true },
+    message: {
+      type: String,
+      required: true,
+    },
+    userEmail: String,
+    userName: String,
   },
   { timestamps: true }
 );
 
-const Feedback = mongoose.model("Feedback", feedbackSchema);
-export default Feedback;
+export default mongoose.model("Feedback", feedbackSchema);

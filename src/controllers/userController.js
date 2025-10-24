@@ -1,4 +1,5 @@
 import User from "../models/users.js";
+import Feedback from "../models/Feedback.js";
 
 // GET all users
 export const getUsers = async (req, res) => {
@@ -59,6 +60,37 @@ export const deleteUser = async (req, res) => {
     }
 
     res.json({ message: "User deleted successfully", user: deletedUser });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const submitFeedback = async (req, res) => {
+  try {
+    const { message } = req.body;
+
+    // Get user ID from token
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
+    const decoded = JSON.parse(
+      Buffer.from(token.split(".")[1], "base64").toString()
+    );
+    const userId = decoded.id;
+
+    // Get user details
+    const user = await User.findById(userId);
+
+    const feedback = await Feedback.create({
+      userId,
+      message,
+      userEmail: user.email,
+      userName: user.childname,
+    });
+
+    res.status(201).json({ message: "Feedback submitted", feedback });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

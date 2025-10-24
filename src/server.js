@@ -8,7 +8,6 @@ import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
-import cors from "cors";
 
 connectDB();
 
@@ -23,6 +22,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 // Routes
